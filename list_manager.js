@@ -52,6 +52,26 @@ window.WBIBListManager = {
     }
   },
 
+  addBatch: function(titles, callback) {
+    var db = window.WBIBListManager.db;
+
+    var transaction = db.transaction('pagelist', 'readwrite');
+    var store = transaction.objectStore('pagelist');
+
+    transaction.onerror = errorHandler('failed_add');
+    if (callback) {
+      transaction.oncomplete = function(event) { callback() };
+    }
+
+    for (var i = 0; i < titles.length; i++) {
+      var entry = {
+        fulltext: titles[i].toText()
+      };
+
+      store.put(entry);
+    }
+  },
+
   remove: function(title, callback) {
     var db = window.WBIBListManager.db;
 

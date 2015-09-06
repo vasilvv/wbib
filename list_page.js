@@ -9,14 +9,18 @@ function setupWBIBListManagerPage() {
       document.title = msg('list_header');
       setNodeText(heading, msg('list_header'));
       root.innerHTML =
+        // Clear button
         '<div style="float: right">' +
         '<button id="wbib-clear">' + msg('list_clear') + '</button>' +
         '</div>' +
+        // Page count paragraph.
         '<p id="wbib-list-count"></p>' +
+        // The list itself.
         '<fieldset>' +
         '<legend>' + msg('list_legend_show') + '</legend>' +
         '<div id="wbib-list"></div>' +
         '</fieldset>' +
+        // The manual add form.
         '<fieldset>' +
         '<legend>' + msg('list_legend_add') + '</legend>' +
         '<form id="wbib-add-form"><table>' +

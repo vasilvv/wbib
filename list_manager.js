@@ -76,7 +76,7 @@ window.WBIBListManager = {
     var db = window.WBIBListManager.db;
 
     var store = db.transaction('pagelist', 'readwrite').objectStore('pagelist');
-    var req = store['delete'](title.toText());
+    var req = store.delete(title.toText());
     req.onerror = errorHandler('failed_remove');
     if (callback) {
       req.onsuccess = function(event) { callback(title) };

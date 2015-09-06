@@ -43,7 +43,7 @@ function setupWBIBListManagerPage() {
     onCountReceived: function(count) {
       var p = document.getElementById('wbib-list-count');
 
-      p.innerText = msg('list_count', count);
+      setNodeText(p, msg('list_count', count));
       window.WBIBListPage.refresh();
     },
 
@@ -58,7 +58,7 @@ function setupWBIBListManagerPage() {
       var list = document.getElementById('wbib-list');
       var spinner = $.createSpinner()[0];
       var label = document.createElement('div');
-      label.innerText = msg('list_loading');
+      appendText(label, msg('list_loading'));
       label.style.display = 'inline';
       label.style.paddingLeft = '1em';
 
@@ -102,12 +102,12 @@ function setupWBIBListManagerPage() {
         list.appendChild(window.WBIBListPage.ol);
       } else {
         var label = document.createElement('p');
-        label.innerText = msg('list_empty');
+        setNodeText(label, msg('list_empty'));
         list.appendChild(label);
       }
 
       var counter = document.getElementById('wbib-list-count');
-      counter.innerText = msg('list_count', window.WBIBListPage.pageCount);
+      setNodeText(counter, msg('list_count', window.WBIBListPage.pageCount));
 
       window.WBIBListPage.ol = null;
       window.WBIBListPage.refreshInProgress = false;

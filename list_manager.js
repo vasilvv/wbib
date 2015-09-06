@@ -8,7 +8,7 @@ window.WBIBListManager = {
       window.WBIBListManager.db = event.target.result;
       onsuccess(event);
     };
-    req.onerror = WBIBErrorHandler('failed_load');
+    req.onerror = errorHandler('failed_load');
     req.onupgradeneeded = WBIBListManager.create;
   },
 
@@ -22,7 +22,7 @@ window.WBIBListManager = {
     var db = window.WBIBListManager.db;
 
     var req = db.transaction('pagelist').objectStore('pagelist').count();
-    req.onerror = WBIBErrorHandler('failed_count');
+    req.onerror = errorHandler('failed_count');
     req.onsuccess = function(event) { callback(event.target.result) };
   },
 
@@ -31,7 +31,7 @@ window.WBIBListManager = {
 
     var store = db.transaction('pagelist', 'readwrite').objectStore('pagelist');
     var req = store.clear();
-    req.onerror = WBIBErrorHandler('failed_clear');
+    req.onerror = errorHandler('failed_clear');
     if (callback) {
       req.onsuccess = function(event) { callback(event.target.result) };
     }
@@ -46,7 +46,7 @@ window.WBIBListManager = {
 
     var store = db.transaction('pagelist', 'readwrite').objectStore('pagelist');
     var req = store.put(entry);
-    req.onerror = WBIBErrorHandler('failed_add');
+    req.onerror = errorHandler('failed_add');
     if (callback) {
       req.onsuccess = function(event) { callback(title) };
     }
@@ -57,7 +57,7 @@ window.WBIBListManager = {
 
     var store = db.transaction('pagelist', 'readwrite').objectStore('pagelist');
     var req = store['delete'](title.toText());
-    req.onerror = WBIBErrorHandler('failed_remove');
+    req.onerror = errorHandler('failed_remove');
     if (callback) {
       req.onsuccess = function(event) { callback(title) };
     }

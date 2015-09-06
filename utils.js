@@ -54,10 +54,10 @@ var setNodeText = function(node, text) {
  * @param {string} msg Name of the error message to display....
  * @return {function(object)}
  */
-window.WBIBErrorHandler = function(msg) {
+var errorHandler = function(msg) {
   return function(event) {
     console.log(event);
-    alert(WBIBMsg[msg]);
+    alert(window.WBIBMsg[msg]);
   }
 };
 

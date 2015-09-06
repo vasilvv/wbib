@@ -65,7 +65,7 @@ window.WBIBListManager = {
 
   iterate: function(onitem, onfinished) {
     var db = window.WBIBListManager.db;
-    var store = db.transaction('pagelist', 'readwrite').objectStore('pagelist');
+    var store = db.transaction('pagelist').objectStore('pagelist');
     store.openCursor().onsuccess = function(event) {
       var cursor = event.target.result;
 

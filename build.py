@@ -17,8 +17,10 @@ languages = ['en']
 js_files = [
         # Common library
         'utils.js',
+        'mwapi.js',
         'list_manager.js',
         # UI
+        'common_ui.js',
         'list_page.js',
         # Final set-up hook
         'onload.js',

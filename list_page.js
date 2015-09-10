@@ -8,6 +8,20 @@ function setupWBIBListManagerPage() {
 
       document.title = msg('list_header');
       setNodeText(heading, msg('list_header'));
+
+      var addMethods = ['plain', 'links'];
+      var addMethodsRadio = '';
+      for (var i = 0; i < addMethods.length; i++) {
+        var method = addMethods[i];
+        var checked = (i == 0) ? ' checked="checked"' : '';
+        addMethodsRadio += '<div class="mw-ui-radio">';
+        addMethodsRadio += '<input name="method" type="radio" value="' +
+          method + '" id="wbib-method-' + method + '"' + checked + '>';
+        addMethodsRadio += '&nbsp;';
+        addMethodsRadio += '<label for="wbib-method-' + method + '">';
+        addMethodsRadio += msg('list_label_add_method_' + method);
+        addMethodsRadio += '</label></div>';
+      }
       root.innerHTML =
         // Clear button
         '<div style="float: right">' +
@@ -26,7 +40,9 @@ function setupWBIBListManagerPage() {
         '<form id="wbib-add-form"><table>' +
         '<tr><td class="mw-label">' + msg('list_add_label') + '</td>' +
         '<td class="mw-input"><input id="wbib-add-title" type="text" /></td>' +
-        '</tr><tr><td></td><td class="mw-input">' +
+        '</tr><tr><td class="mw-label">' + msg('list_add_method') + '</td>' +
+        '<td class="mw-input">' + addMethodsRadio + '</td>' +
+        '<tr><td></td><td class="mw-input">' +
         '<button type="submit">' + msg('list_add_button') + '</button>' +
         '</td></tr>' +
         '</table></form></fieldset>';
@@ -34,6 +50,9 @@ function setupWBIBListManagerPage() {
 
       var form = document.getElementById('wbib-add-form');
       form.addEventListener('submit', window.WBIBListPage.onPageAddRequested);
+
+      window.WBIBListPage.addSpinner = new Spinner('wbib-add-spinner', '');
+      form.parentNode.insertBefore(window.WBIBListPage.addSpinner.div, form);
 
       var clearButton = document.getElementById('wbib-clear');
       clearButton.addEventListener('click',
@@ -116,6 +135,8 @@ function setupWBIBListManagerPage() {
     onPageAddRequested: function(event) {
       event.preventDefault();
 
+      var form = document.getElementById('wbib-add-form');
+      var method = form.querySelector('input[name="method"]:checked').value;
       var textbox = document.getElementById('wbib-add-title');
       var title = mw.Title.newFromText(textbox.value);
       if (title == null) {
@@ -123,7 +144,20 @@ function setupWBIBListManagerPage() {
         return false;
       }
 
-      window.WBIBListManager.add(title, window.WBIBListPage.refresh);
+      switch (method) {
+        case 'plain':
+          window.WBIBListManager.add(title, window.WBIBListPage.refresh);
+          break;
+        case 'links':
+          window.WBIBListPage.addPagesRequest(
+              {
+                prop: 'links',
+                titles: title.toText(),
+                pllimit: 'max'
+              },
+              pageLinksHandler);
+          break;
+      }
 
       return false;
     },
@@ -143,6 +177,27 @@ function setupWBIBListManagerPage() {
           break;
         }
       }
+    },
+
+    addPagesRequest: function(rqParams, handler) {
+      window.WBIBListPage.addSpinner.setText(msg('list_add_progress', 0));
+      window.WBIBListPage.addSpinner.show();
+      makeApiQueryForTitles(
+          rqParams,
+          handler,
+          function(titles, count) {
+            window.WBIBListManager.addBatch(titles);
+            window.WBIBListPage.addSpinner.setText(
+                msg('list_add_progress', count));
+          },
+          function() {
+            window.WBIBListPage.addSpinner.hide();
+            window.WBIBListPage.refresh();
+          });
+    },
+
+    onAddComplete: function(count) {
+      mw.notify(msg('list_add_complete', count));
     }
   };
 

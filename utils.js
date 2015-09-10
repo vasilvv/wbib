@@ -63,3 +63,4 @@ var errorHandler = function(msg) {
 
 // Required for most UI pages involved.
 mw.loader.load('jquery.spinner');
+mw.loader.load('mediawiki.api');

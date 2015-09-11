@@ -15,7 +15,7 @@ var makeApiQuery = function(rqParams, onData, onComplete) {
   var processRequestData = function(data, count) {
     var newCount = onData(data, count);
 
-    if ('batchcomplete' in data || !('continue' in data)) {
+    if (!('continue' in data)) {
       onComplete(newCount);
       return;
     }
@@ -62,6 +62,17 @@ var pageLinksHandler = function(data) {
       var title = mw.Title.newFromText(page.links[i].title, page.links[i].text);
       titles.push(title);
     }
+  }
+  return titles;
+};
+
+var categoryLinksHandler = function(data) {
+  var titles = [];
+  for (var i = 0; i < data.query.categorymembers.length; i++) {
+    var page = data.query.categorymembers[i];
+    var title = mw.Title.newFromText(page.title,
+                                     page.text);
+    titles.push(title);
   }
   return titles;
 };

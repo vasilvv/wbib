@@ -13,6 +13,7 @@ window.WBIBMsg = {
   'list_add_label' : 'Page title:',
   'list_add_method' : 'What to include:',
   'list_add_progress' : 'Loaded $1 pages...',
+  'list_label_add_method_category' : 'All pages in that category',
   'list_label_add_method_links' : 'All pages linked from that page',
   'list_label_add_method_plain' : 'The page itself',
   'list_count' : 'There are $1 pages in the list.',

@@ -9,7 +9,7 @@ function setupWBIBListManagerPage() {
       document.title = msg('list_header');
       setNodeText(heading, msg('list_header'));
 
-      var addMethods = ['plain', 'links'];
+      var addMethods = ['plain', 'links', 'category'];
       var addMethodsRadio = '';
       for (var i = 0; i < addMethods.length; i++) {
         var method = addMethods[i];
@@ -156,6 +156,18 @@ function setupWBIBListManagerPage() {
                 pllimit: 'max'
               },
               pageLinksHandler);
+          break;
+        case 'category':
+          if (title.namespace != 14) {
+            title = mw.Title.newFromText('Category:' + title.toText());
+          }
+          window.WBIBListPage.addPagesRequest(
+              {
+                list: 'categorymembers',
+                cmtitle: title.toText(),
+                cmlimit: 'max'
+              },
+              categoryLinksHandler);
           break;
       }
 

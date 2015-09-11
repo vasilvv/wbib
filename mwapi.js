@@ -76,3 +76,16 @@ var categoryLinksHandler = function(data) {
   }
   return titles;
 };
+
+var templateLinksHandler = function(data) {
+  var titles = [];
+  for (var pageid in data.query.pages) {
+    var page = data.query.pages[pageid];
+    for (var i = 0; i < page.transcludedin.length; i++) {
+      var title = mw.Title.newFromText(page.transcludedin[i].title,
+                                       page.transcludedin[i].text);
+      titles.push(title);
+    }
+  }
+  return titles;
+};

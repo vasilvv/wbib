@@ -16,6 +16,7 @@ window.WBIBMsg = {
   'list_label_add_method_category' : 'All pages in that category',
   'list_label_add_method_links' : 'All pages linked from that page',
   'list_label_add_method_plain' : 'The page itself',
+  'list_label_add_method_template' : 'All pages using that template',
   'list_count' : 'There are $1 pages in the list.',
   'list_clear' : 'Clear list',
   'list_empty' : 'The list is empty.',

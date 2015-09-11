@@ -32,7 +32,8 @@ function setupWBIBListManagerPage() {
         // The list itself.
         '<fieldset>' +
         '<legend>' + msg('list_legend_show') + '</legend>' +
-        '<div id="wbib-list"></div>' +
+        '<div id="wbib-list" style="height: 20em; ' +
+        'overflow: scroll; padding-left: 2em"></div>' +
         '</fieldset>' +
         // The manual add form.
         '<fieldset>' +
